@@ -43,7 +43,8 @@ class Api
         $model->id = $id;
         $model->secret = $secret;
         $model->url = $url;
-        return static::$_instance = $model;
+        static::$_instance = $model;
+        return $model;
     }
 
     /**
@@ -52,7 +53,7 @@ class Api
      */
     public static function yii()
     {
-        list($id, $secret, $url) = \Yii::$app->params['greenInvoice'];
+        extract(\Yii::$app->params['greenInvoice']); /** @var $id */ /** @var $secret */ /** @var $url */
         return static::instance($id, $secret, $url);
     }
 
@@ -68,14 +69,14 @@ class Api
      *
      * @example response
      *  [
-          'id' => '3f35c548-6ba0-4099-b2bc-f189ce7ef00c',
-          'client' => [], 'number' => 50009, 'type' => 320, 'signed' => true, 'lang' => 'en',
-          'url' => [
-              'origin' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1DZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBgydRvaX5',
-              'he' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1AZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBhSJTt6v5',
-              'en' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1BZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBgC5RtKr5',
-          ],
-        ];
+    'id' => '3f35c548-6ba0-4099-b2bc-f189ce7ef00c',
+    'client' => [], 'number' => 50009, 'type' => 320, 'signed' => true, 'lang' => 'en',
+    'url' => [
+    'origin' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1DZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBgydRvaX5',
+    'he' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1AZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBhSJTt6v5',
+    'en' => 'https://www.greeninvoice.co.il/api/v1/documents/download?d=zAZeHKAQCb1BZkQ0yMWPfXbz827r9mnJwDXCKB81%2BctUkp%2BrGSXhi3bEBjFKWQqQ%2Bw1gwOjpx6IfJa9eOx7mYCICci25iljPXk%2BKK925B%2BhRpG2PKb9Gvw1BWYkZfoOt7vEjVC%2F2tA%2BZPE9xUVQ8pkWBgC5RtKr5',
+    ],
+    ];
      */
     public function createInvoice($description, $clientName, $clientEmail, $itemName, $itemPrice, $language = 'en', $currency = 'USD')
     {
@@ -150,6 +151,7 @@ class Api
      */
     private function login()
     {
+        $this->token = 'JWT';
         $result = $this->request('/account/token', 'POST', [
             'id' => $this->id,
             'secret' => $this->secret,
