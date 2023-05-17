@@ -23,6 +23,19 @@ class Payment extends Model
     const TYPE_PAYMENT_APP = 1;
     const TYPE_OTHER = 11;
 
+
+    /**
+     * @var float required
+     */
+    public $price;
+
+    /**
+     * 3-letter ISO item currency code.
+     *
+     * @var string required
+     */
+    public $currency;
+
     /**
      * Payment date in the format YYYY-MM-DD.
      *
@@ -36,20 +49,6 @@ class Payment extends Model
      * @var int
      */
     public $type = self::TYPE_CREDIT_CARD;
-
-    /**
-     * Item price.
-     *
-     * @var float
-     */
-    public $price;
-
-    /**
-     * 3-letter ISO item currency code.
-     *
-     * @var string
-     */
-    public $currency;
 
     /**
      * Currency rate relative to ILS, If not set - decided by the rates of requested payment date.
@@ -135,10 +134,12 @@ class Payment extends Model
      */
     public $firstPayment;
 
-    public function __construct(float $price, string $currency = 'ILS')
+    /**
+     * @inheritDoc
+     */
+    public function __construct($data = [])
     {
         $this->date = date('Y-m-d');
-        $this->price = $price;
-        $this->currency = $currency;
+        parent::__construct($data);
     }
 }

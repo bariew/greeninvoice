@@ -15,6 +15,17 @@ abstract class Model
     public $endpoint;
 
     /**
+     * Model constructor.
+     * @param array $data
+     */
+    public function __construct($data = [])
+    {
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
      * @return array
      */
     public function toArray()

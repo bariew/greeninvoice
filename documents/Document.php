@@ -14,7 +14,19 @@ use bariew\greeninvoice\clients\Client;
  */
 class Document extends Model
 {
-    const TYPE_INVOICE = 320; // tax invoice
+    const TYPE_BID = 10;
+    const TYPE_INVITATION = 100;
+    const TYPE_SHIPPING_CERTIFICATE = 200;
+    const TYPE_RETURN_CERTIFICATE = 210;
+    const TYPE_TRANSACTION_ACCOUNT = 300;
+    const TYPE_INVOICE = 305;
+    const TYPE_TAX_INVOICE = 320;
+    const TYPE_CREDIT_INVOICE = 330;
+    const TYPE_ACCEPTANCE = 400;
+    const TYPE_DONATION_RECEIPT = 405;
+    const TYPE_PURCHAISE_ORDER = 500;
+    const TYPE_RECEIVING_DEPOSIT = 600;
+    const TYPE_DEPOSIT_WITHDRAWAL = 610;
 
     /**
      * The endpoint for document request.
@@ -26,9 +38,23 @@ class Document extends Model
     /**
      * Document's description.
      *
-     * @var string
+     * @var string required
      */
     public $description;
+
+    /**
+     * Primary language.
+     *
+     * @var string required
+     */
+    public $lang;
+
+    /**
+     * Primary currency.
+     *
+     * @var string required
+     */
+    public $currency;
 
     /**
      * Document's remarks.
@@ -56,7 +82,7 @@ class Document extends Model
      *
      * @var int
      */
-    public $type = self::TYPE_INVOICE;
+    public $type = self::TYPE_TAX_INVOICE;
 
     /**
      * Document date in the format YYYY-MM-DD.
@@ -71,20 +97,6 @@ class Document extends Model
      * @var string
      */
     public $dueDate;
-
-    /**
-     * Primary language.
-     *
-     * @var string
-     */
-    public $lang;
-
-    /**
-     * Primary currency.
-     *
-     * @var string
-     */
-    public $currency;
 
     /**
      * Vat type for that document.
@@ -174,17 +186,11 @@ class Document extends Model
     public $linkType;
 
     /**
-     * Document constructor.
-     * @param Income $income
-     * @param $description
-     * @param string $lang
-     * @param string $currency
+     * @inheritDoc
      */
-    public function __construct($description, string $lang = 'he', string $currency = 'ILS')
+    public function __construct($data = [])
     {
-        $this->description = $description;
-        $this->lang = $lang;
-        $this->currency = $currency;
         $this->date = date('Y-m-d');
+        parent::__construct($data);
     }
 }

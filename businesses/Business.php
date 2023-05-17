@@ -21,16 +21,8 @@ class Business extends Model
     const TYPE_PARTNERSHIP = 6;
 
     public $endpoint = '/businesses';
-    public $taxId, $name, $nameEn, $title, $titleEn, $address, $cityId, $phone, $category, $subCategory;
-    public $type = self::TYPE_OSEK_MURSHE;
+    public $taxId, $name, $nameEn;//required
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct($taxId, $name, $nameEn)
-    {
-        $this->taxId = $taxId;
-        $this->name = $name;
-        $this->nameEn =  $nameEn;
-    }
+    public $title, $titleEn, $address, $cityId, $phone, $category, $subCategory;
+    public $type = self::TYPE_OSEK_MURSHE;
 }

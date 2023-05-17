@@ -13,13 +13,17 @@ use bariew\greeninvoice\Model;
  */
 class Client extends Model
 {
-    public $endpoint = 'clients';
+    public $endpoint = '/clients';
+
     /**
-     * The client name.
-     *
-     * @var string
+     * @var string required
      */
     public $name;
+
+    /**
+     * @var array required
+     */
+    public $emails = [];
 
     /**
      * Is the client currently active or not.
@@ -154,12 +158,6 @@ class Client extends Model
      */
     public $contactPerson;
 
-    /**
-     * Emails.
-     *
-     * @var array
-     */
-    public $emails = [];
 
     /**
      * Labels.
@@ -170,13 +168,4 @@ class Client extends Model
 
     public $add = false;
     public $self = false;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(string $name, $emails)
-    {
-        $this->name = $name;
-        $this->emails = (array) $emails;
-    }
 }
