@@ -82,9 +82,9 @@ class Api
      */
     public function createInvoice($description, $clientName, $clientEmail, $itemName, $itemPrice, $language = 'en', $currency = 'USD', $callback = null)
     {
-        $doc = new Document(['desciption' => $description, 'lang' => $language, 'currency' => $currency]);
+        $doc = new Document(['description' => $description, 'lang' => $language, 'currency' => $currency]);
         $doc->client = $this->search(new Client(), ['email' => $clientEmail])['items'][0] ?? new Client(['name' => $clientName, 'emails' => (array) $clientEmail]);
-        $doc->income = [new Income(['desciption' => $itemName, 'price' => $itemPrice, 'currency' => $currency])];
+        $doc->income = [new Income(['description' => $itemName, 'price' => $itemPrice, 'currency' => $currency])];
         $doc->payment = [new Payment(['price' => $itemPrice, 'currency' => $currency])];
         $callback && call_user_func($callback, $doc);
         return $this->add($doc)['id'];
